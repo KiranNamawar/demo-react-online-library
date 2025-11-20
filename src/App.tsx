@@ -1,7 +1,17 @@
 import { Outlet } from "react-router";
 import { Library } from "lucide-react";
+import books from "./books.json";
+import { useAppDispatch } from "./redux/hooks";
+import { useEffect } from "react";
+import { loadBooks } from "./redux/books-slice";
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadBooks(books));
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <header>
