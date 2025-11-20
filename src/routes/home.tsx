@@ -1,24 +1,49 @@
+import { Link } from "react-router";
 import { useAppSelector } from "../redux/hooks";
+import BookCard from "../components/BookCard";
+
+const popularCategories = [
+  "Drama",
+  "Fiction",
+  "Adventure",
+  "History",
+  "Horror",
+  "Biography",
+];
 
 function Home() {
   const books = useAppSelector((state) => state.books);
+  const popularBooks = books.filter((book) => book.rating === 5);
+
   return (
     <>
-      <h2>Home</h2>
-      {books.map((book) => (
-        <div key={book.id}>
-          <img src={book.coverImage} alt={book.title} />
-          <h2>{book.title}</h2>
-          <p>by {book.author}</p>
-          <p>rating: {book.rating}</p>
-          <p>Categories</p>
-          {book.categories.map((c) => (
-            <span key={c}>{c}, </span>
+      <section>
+        <p>
+          Welcome to <span>Online Library</span>
+        </p>
+      </section>
+      <section>
+        <h3>Popular Categories</h3>
+        <ul>
+          {popularCategories.map((category) => (
+            <li key={category}>
+              <Link to={`/browse/${encodeURIComponent(category)}`}>
+                {category}
+              </Link>
+            </li>
           ))}
-          <br />
-          <p>{book.description}</p>
-        </div>
-      ))}
+        </ul>
+      </section>
+      <section>
+        <h3>Popular Books</h3>
+        <ul>
+          {popularBooks.map((book) => (
+            <li key={book.id}>
+              <BookCard book={book} />
+            </li>
+          ))}
+        </ul>
+      </section>
     </>
   );
 }
