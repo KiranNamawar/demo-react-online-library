@@ -2,6 +2,10 @@
 
 This is a responsive Online Library application built with React, Redux, and Tailwind CSS. It allows users to browse books, view details, and add new books to the collection.
 
+## Links
+
+[Live Demo](https://demo-react-online-library.vercel.app/) | [GitHub Repository](https://github.com/KiranNamawar/demo-react-online-library)
+
 ## Features
 
 - **Home Page**: Welcome message, popular categories, and popular books.
