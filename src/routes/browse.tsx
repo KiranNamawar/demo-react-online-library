@@ -44,34 +44,52 @@ function Browse() {
   }, [query, option, allBooks]);
 
   return (
-    <>
-      <search>
-        <input
-          type="search"
-          placeholder="Search for book, author"
-          value={query}
-          onChange={(evt) => setQuery(evt.target.value)}
-        />
-        <select
-          value={option}
-          onChange={(evt) => setOption(evt.target.value as Option)}
-        >
-          <option value="All">All</option>
-          {popularCategories.map((category) => (
-            <option value={category} key={category}>
-              {category}
-            </option>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-3xl font-bold text-slate-100">Browse Books</h1>
+        <div className="flex flex-col gap-4 sm:flex-row">
+          <input
+            type="search"
+            placeholder="Search by title or author..."
+            value={query}
+            onChange={(evt) => setQuery(evt.target.value)}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:w-64"
+          />
+          <select
+            value={option}
+            onChange={(evt) => setOption(evt.target.value as Option)}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-slate-100 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:w-48"
+          >
+            <option value="All">All Categories</option>
+            {popularCategories.map((category) => (
+              <option value={category} key={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {filteredBooks.length === 0 ? (
+        <div className="flex h-64 flex-col items-center justify-center rounded-lg border border-dashed border-slate-800 bg-slate-900/50 text-center">
+          <p className="text-lg text-slate-400">No books found matching your criteria.</p>
+          <button
+            onClick={() => { setQuery(""); setOption("All"); }}
+            className="mt-4 text-blue-500 hover:text-blue-400 hover:underline"
+          >
+            Clear filters
+          </button>
+        </div>
+      ) : (
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {filteredBooks.map((book) => (
+            <li key={book.id}>
+              <BookCard book={book} />
+            </li>
           ))}
-        </select>
-      </search>
-      <ul>
-        {filteredBooks.map((book) => (
-          <li key={book.id}>
-            <BookCard book={book} />
-          </li>
-        ))}
-      </ul>
-    </>
+        </ul>
+      )}
+    </div>
   );
 }
 
