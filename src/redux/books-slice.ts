@@ -7,7 +7,9 @@ const books = createSlice({
   name: "books",
   initialState,
   reducers: {
+    // Action to load the initial list of books
     loadBooks: (_, action: PayloadAction<Book[]>) => action.payload,
+    // Action to add a new book to the beginning of the list
     addBook: (state, action: PayloadAction<Book>) => {
       state.unshift(action.payload);
     },

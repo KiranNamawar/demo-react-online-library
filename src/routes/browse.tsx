@@ -18,6 +18,7 @@ function Browse() {
   const [option, setOption] = useState<Option>("All");
   const allBooks = useAppSelector((state) => state.books);
 
+  // Filter books based on search query and selected category
   const filteredBooks = useMemo(() => {
     const search = query.trim().toLowerCase();
     const categoryFilter = option === "All" ? null : option.toLowerCase();
