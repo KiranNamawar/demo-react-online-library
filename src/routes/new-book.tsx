@@ -1,4 +1,4 @@
-import type { FormEvent } from "react";
+import { type FormEvent, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAppDispatch } from "../redux/hooks";
 import { addBook } from "../redux/books-slice";
@@ -7,6 +7,8 @@ import type { Book } from "../types/book";
 function NewBook() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const [rating, setRating] = useState(5);
 
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -17,7 +19,6 @@ function NewBook() {
     const coverImage = formData.get("coverImage") as string;
     const description = formData.get("description") as string;
     const categories = formData.get("categories") as string;
-    const rating = Number(formData.get("rating"));
 
     const book: Book = {
       id: crypto.randomUUID(),
@@ -25,13 +26,14 @@ function NewBook() {
       author,
       coverImage,
       description,
-      rating,
+      rating: Number(rating),
       categories: categories.split(",").map((c) => c.trim()),
     };
 
     dispatch(addBook(book));
 
     evt.currentTarget.reset();
+    setRating(5); // Reset rating
 
     navigate("/browse");
   }
@@ -82,14 +84,15 @@ function NewBook() {
               id="rating"
               name="rating"
               type="range"
-              defaultValue={5}
+              value={rating}
+              onChange={(e) => setRating(Number(e.target.value))}
               min="1"
               max="5"
               step="1"
               required
               className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-700 accent-blue-500"
             />
-            <span className="w-12 text-center text-lg font-bold text-blue-500">5</span>
+            <span className="w-12 text-center text-lg font-bold text-blue-500">{rating}</span>
           </div>
         </div>
 
